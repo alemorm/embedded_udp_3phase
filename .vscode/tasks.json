@@ -1,0 +1,60 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "options": {
+      "env": {
+          "pi_dir": "~/projects/${workspaceFolderBasename}",
+          "exec_file": "~/projects/${workspaceFolderBasename}/${fileBasenameNoExtension}",
+          "pi_source": "~/projects/${workspaceFolderBasename}/${fileBasename}",
+          "compiler": "gcc"
+      }
+    },
+    "tasks": [
+      {
+        "label": "Sync local to remote",
+        "type": "shell",
+        "command": "rsync -avz ${workspaceFolder}/ pi:$pi_dir",
+        "presentation": {
+          "reveal": "silent",
+          "revealProblems": "onProblem"
+        }
+      },
+      {
+        "label": "Compile and build Raspberry Pi C binary",
+        "type": "shell",
+        "command": "ssh pi <<< echo $compiler -o $exec_file $pi_source",
+        "presentation": {
+          "reveal": "silent",
+          "revealProblems": "onProblem"
+        }
+      },
+      {
+        "label": "Sync remote to local",
+        "type": "shell",
+        "command": "rsync -avz pi:$pi_dir/ ${workspaceFolder}",
+        "dependsOrder": "sequence",
+        "dependsOn": ["Sync local to remote", "Compile and build Raspberry Pi C binary"],
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        },
+        "presentation": {
+          "reveal": "silent",
+          "revealProblems": "onProblem"
+        }
+      },
+      {
+        "label": "Run the binaries remotely",
+        "type": "shell",
+        "command": "ssh pi <<< echo $exec_file",
+        "group": {
+            "kind": "test",
+            "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always"
+        }
+      }
+    ]
+  }
