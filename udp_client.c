@@ -14,7 +14,8 @@
 int main() { 
 	int sockfd; 
 	char buffer[MAXLINE]; 
-	char *hello = "Hello from client"; 
+	int test = 2;
+	int *hello = &test; 
 	struct sockaddr_in	 servaddr; 
 
 	// Creating socket file descriptor 
@@ -32,10 +33,10 @@ int main() {
 	
 	int n, len; 
 	
-	sendto(sockfd, (const char *)hello, strlen(hello), 
+	sendto(sockfd, (const int *)hello, sizeof(hello), 
 		MSG_CONFIRM, (const struct sockaddr *) &servaddr, 
 			sizeof(servaddr)); 
-	printf("Hello message sent.\n"); 
+	printf("Testing client.\n"); 
 		
 	n = recvfrom(sockfd, (char *)buffer, MAXLINE, 
 				MSG_WAITALL, (struct sockaddr *) &servaddr, 

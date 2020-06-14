@@ -13,7 +13,7 @@
 // Driver code 
 int main() { 
 	int sockfd; 
-	char buffer[MAXLINE]; 
+	int buffer[MAXLINE]; 
 	char *hello = "Hello from server"; 
 	struct sockaddr_in servaddr, cliaddr; 
 	
@@ -41,13 +41,13 @@ int main() {
 	
 	int len, n; 
 
-	len = sizeof(cliaddr); //len is value/resuslt 
+	len = sizeof(cliaddr); //len is value/result 
 
-	n = recvfrom(sockfd, (char *)buffer, MAXLINE, 
+	n = recvfrom(sockfd, (int *)buffer, MAXLINE, 
 				MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
 				&len); 
 	buffer[n] = '\0'; 
-	printf("Client : %s\n", buffer); 
+	printf("Client : %i\n", buffer[0]); 
 	sendto(sockfd, (const char *)hello, strlen(hello), 
 		MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 			len); 

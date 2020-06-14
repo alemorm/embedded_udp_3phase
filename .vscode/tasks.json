@@ -5,7 +5,8 @@
     "options": {
       "env": {
           "pi_dir": "~/projects/${workspaceFolderBasename}",
-          "exec_file": "~/projects/${workspaceFolderBasename}/${fileBasenameNoExtension}",
+          "exec_dir": "~/projects/${workspaceFolderBasename}/bin/",
+          "exec_file": "~/projects/${workspaceFolderBasename}/bin/${fileBasenameNoExtension}",
           "pi_source": "~/projects/${workspaceFolderBasename}/${fileBasename}",
           "compiler": "gcc"
       }
@@ -14,7 +15,7 @@
       {
         "label": "Sync local to remote",
         "type": "shell",
-        "command": "rsync -avz ${workspaceFolder}/ pi:$pi_dir",
+        "command": "rsync -avrz ${workspaceFolder}/ pi:$pi_dir",
         "presentation": {
           "reveal": "silent",
           "revealProblems": "onProblem"
@@ -32,7 +33,7 @@
       {
         "label": "Sync remote to local",
         "type": "shell",
-        "command": "rsync -avz pi:$pi_dir/ ${workspaceFolder}",
+        "command": "rsync -avrz pi:$pi_dir/ ${workspaceFolder}",
         "dependsOrder": "sequence",
         "dependsOn": ["Sync local to remote", "Compile and build Raspberry Pi C binary"],
         "group": {
