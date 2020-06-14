@@ -18,8 +18,6 @@ sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
 sock2 = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 sock2.bind((UDP_IP1, UDP_PORT))
-
-# sock2.bind((UDP_IP, UDP_PORT))
 while True:
     data, addr = sock2.recvfrom(1024) # buffer size is 1024 bytes
     print("received message: %f" % data[0])

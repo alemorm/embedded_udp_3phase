@@ -96,6 +96,11 @@ int main() {
 		exit(EXIT_FAILURE); 
 	} 
 	
+	if ( (sockPC = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) { 
+		perror("socket creation failed"); 
+		exit(EXIT_FAILURE); 
+	} 
+	
 	memset(&servaddr, 0, sizeof(servaddr)); 
 	memset(&cliaddr, 0, sizeof(cliaddr)); 
 	
@@ -111,7 +116,7 @@ int main() {
 		perror("bind failed"); 
 		exit(EXIT_FAILURE); 
 	} 
-	
+		
 	int len, n; 
 
 	len = sizeof(cliaddr); //len is value/resuslt 
