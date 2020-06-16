@@ -1,57 +1,51 @@
 import socket
+import numpy as np
+from plot_func import live_plotter
 
-UDP_IP1 = "127.0.0.1"
-UDP_IP = "192.168.42.11"
-# UDP_PORT = 5005
-UDP_PORT = 8050
-MESSAGE = b"Test python"
+LOCAL_IP = ""
+# LOCAL_IP = "127.0.0.1"
+REMOTE_IP = "192.168.42.11"
+REMOTE_PORT = 21050
+LOCAL_PORT = 20050
+MESSAGE = np.arange(15, 18, dtype=np.float32).tobytes()
 
-print("UDP target IP: %s" % UDP_IP)
-print("UDP target port: %s" % UDP_PORT)
+print("UDP target IP: %s" % REMOTE_IP)
+print("UDP target port: %s" % REMOTE_PORT)
 print("message: %s" % MESSAGE)
 
-sock = socket.socket(socket.AF_INET, # Internet
+remotesock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 
-sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+remotesock.sendto(MESSAGE, (REMOTE_IP, REMOTE_PORT))
 
-sock2 = socket.socket(socket.AF_INET, # Internet
+localsock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
-sock2.bind((UDP_IP1, UDP_PORT))
+
+localsock.bind((LOCAL_IP, LOCAL_PORT))
+
+print("UDP host IP: %s" % LOCAL_IP)
+print("UDP host port: %s" % LOCAL_PORT)
+
+size = 100
+x_vec = np.linspace(0,1,size+1)[0:-1]
+y_vec1 = np.sin(x_vec)
+y_vec2 = np.sin(x_vec + 2*np.pi/3)
+y_vec3 = np.sin(x_vec + 4*np.pi/3)
+line1 = []
+line2 = []
+line3 = []
+
 while True:
-    data, addr = sock2.recvfrom(1024) # buffer size is 1024 bytes
-    print("received message: %f" % data[0])
-
-# import socket
-
- 
-
-# msgFromClient       = "Hello UDP Server"
-
-# bytesToSend         = str.encode(msgFromClient)
-
-# serverAddressPort   = ("127.0.0.1", 20001)
-
-# bufferSize          = 1024
-
- 
-
-# # Create a UDP socket at client side
-
-# UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-
- 
-
-# # Send to server using created UDP socket
-
-# UDPClientSocket.sendto(bytesToSend, serverAddressPort)
-
- 
-
-# msgFromServer = UDPClientSocket.recvfrom(bufferSize)
-
- 
-
-# msg = "Message from Server {}".format(msgFromServer[0])
-
-# print(msg)
+    print("Waiting")
+    data, addr = localsock.recvfrom(1024) # buffer size is 1024 bytes
+    test_data = np.frombuffer(data, dtype=np.float32)
+    print(f"received message: {test_data}")
+    print(f"received message: {addr}")
+    
+    y_vec1[-1] = test_data[0]
+    y_vec2[-1] = test_data[1]
+    y_vec3[-1] = test_data[2]
+    line1, line2, line3 = live_plotter(x_vec,y_vec1,y_vec2,y_vec3,line1,line2,line3)
+    y_vec1 = np.append(y_vec1[1:],0.0)
+    y_vec2 = np.append(y_vec2[1:],0.0)
+    y_vec3 = np.append(y_vec3[1:],0.0)

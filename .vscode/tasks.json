@@ -7,7 +7,7 @@
           "pi_dir": "~/projects/${workspaceFolderBasename}",
           "exec_dir": "~/projects/${workspaceFolderBasename}/bin/",
           "exec_file": "~/projects/${workspaceFolderBasename}/bin/${fileBasenameNoExtension}",
-          "pi_source": "~/projects/${workspaceFolderBasename}/${fileBasename}",
+          "pi_source": "~/projects/${workspaceFolderBasename}/${relativeFile}",
           "git_ignore": "${workspaceFolder}/.gitignore",
           "compiler": "gcc"
       }
@@ -16,7 +16,7 @@
       {
         "label": "Sync local to remote",
         "type": "shell",
-        "command": "rsync --exclude-from=$git_ignore -avrz ${workspaceFolder}/ pi:$pi_dir",
+        "command": "rsync --exclude-from=$git_ignore -avr ${workspaceFolder}/ pi:$pi_dir --delete",
         "presentation": {
           "reveal": "silent",
           "revealProblems": "onProblem"
@@ -25,7 +25,7 @@
       {
         "label": "Compile and build Raspberry Pi C binary",
         "type": "shell",
-        "command": "ssh pi <<< echo $compiler -o $exec_file $pi_source",
+        "command": "ssh pi <<< echo $compiler -lm -o $exec_file $pi_source",
         "presentation": {
           "reveal": "silent",
           "revealProblems": "onProblem"
@@ -34,7 +34,7 @@
       {
         "label": "Sync remote to local",
         "type": "shell",
-        "command": "rsync -avrz pi:$pi_dir/ ${workspaceFolder}",
+        "command": "rsync -avr pi:$pi_dir/ ${workspaceFolder}",
         "dependsOrder": "sequence",
         "dependsOn": ["Sync local to remote", "Compile and build Raspberry Pi C binary"],
         "group": {
