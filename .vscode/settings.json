@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/mnt/c/Users/alemo/anacondaWSL/bin/python"
+    "python.pythonPath": "/mnt/c/Users/alemo/anacondaWSL/bin/python",
+    "python.linting.enabled": true
 }

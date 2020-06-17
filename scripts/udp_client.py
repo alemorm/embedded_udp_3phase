@@ -4,19 +4,19 @@ from plot_func import live_plotter
 
 LOCAL_IP = ""
 # LOCAL_IP = "127.0.0.1"
-REMOTE_IP = "192.168.42.11"
-REMOTE_PORT = 21050
-LOCAL_PORT = 20050
-MESSAGE = np.arange(15, 18, dtype=np.float32).tobytes()
+# REMOTE_IP = "192.168.42.11"
+# REMOTE_PORT = 21050
+LOCAL_PORT = 21050
+# MESSAGE = np.arange(15, 18, dtype=np.float32).tobytes()
 
-print("UDP target IP: %s" % REMOTE_IP)
-print("UDP target port: %s" % REMOTE_PORT)
-print("message: %s" % MESSAGE)
+# print("UDP target IP: %s" % REMOTE_IP)
+# print("UDP target port: %s" % REMOTE_PORT)
+# print("message: %s" % MESSAGE)
 
-remotesock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
+# remotesock = socket.socket(socket.AF_INET, # Internet
+#                      socket.SOCK_DGRAM) # UDP
 
-remotesock.sendto(MESSAGE, (REMOTE_IP, REMOTE_PORT))
+# remotesock.sendto(MESSAGE, (REMOTE_IP, REMOTE_PORT))
 
 localsock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
@@ -36,15 +36,14 @@ line2 = []
 line3 = []
 
 while True:
-    print("Waiting")
     data, addr = localsock.recvfrom(1024) # buffer size is 1024 bytes
-    test_data = np.frombuffer(data, dtype=np.float32)
-    print(f"received message: {test_data}")
-    print(f"received message: {addr}")
+    phase_data = np.frombuffer(data, dtype=np.float32)
+    print(f"received message: {phase_data}")
+    # print(f"received message: {addr}")
     
-    y_vec1[-1] = test_data[0]
-    y_vec2[-1] = test_data[1]
-    y_vec3[-1] = test_data[2]
+    y_vec1[-1] = phase_data[0]
+    y_vec2[-1] = phase_data[1]
+    y_vec3[-1] = phase_data[2]
     line1, line2, line3 = live_plotter(x_vec,y_vec1,y_vec2,y_vec3,line1,line2,line3)
     y_vec1 = np.append(y_vec1[1:],0.0)
     y_vec2 = np.append(y_vec2[1:],0.0)
