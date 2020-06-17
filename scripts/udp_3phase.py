@@ -32,24 +32,24 @@ print("UDP host IP: %s" % LOCAL_IP)
 print("UDP host port: %s" % PORT)
 
 # Initialize arrays with random noisy 3 phase data
-size = 100
-x_vec = np.linspace(-10,0,size)
-y_vec = np.zeros((3,size))
-random_noise = np.random.uniform(low=-0.1, high=0.1, size=y_vec.shape)
-y_vec[0,:] = 120*(np.sin(x_vec) + random_noise[0,:])
-y_vec[1,:] = 120*(np.sin(x_vec + 2*np.pi/3) + random_noise[1,:])
-y_vec[2,:] = 120*(np.sin(x_vec + 4*np.pi/3) + random_noise[2,:])
+array_size = 100
+time_array = np.linspace(-10,0,array_size)
+phase_array = np.zeros((3,array_size))
+added_noise = np.random.uniform(low=-0.1, high=0.1, size=phase_array.shape)
+phase_array[0,:] = 120*(np.sin(time_array) + added_noise[0,:])
+phase_array[1,:] = 120*(np.sin(time_array + 2*np.pi/3) + added_noise[1,:])
+phase_array[2,:] = 120*(np.sin(time_array + 4*np.pi/3) + added_noise[2,:])
 lines = []
 
 while True:
-    data, addr = localsock.recvfrom(BUFFER_SIZE) # buffer size is 1024 bytes
+    data, addr = localsock.recvfrom(BUFFER_SIZE)
     phase_data = np.frombuffer(data, dtype=np.float32)
     
     # Debug prints
     # print(f"received message: {phase_data}")
     # print(f"received message: {addr}")
     
-    y_vec[:,-1] = phase_data
-    lines = live_plotter(x_vec,y_vec,lines)
-    y_vec[:,:-1] = y_vec[:,1:]
-    y_vec[:,-1] = 0
+    phase_array[:,-1] = phase_data
+    lines = live_plotter(time_array,phase_array,lines)
+    phase_array[:,:-1] = phase_array[:,1:]
+    phase_array[:,-1] = 0
