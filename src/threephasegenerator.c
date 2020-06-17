@@ -16,9 +16,8 @@
 int phasegenerator(float *phasevals, float *timechecked, float *randomnoise);
 
 int main() { 
-	int sockpifd, recvsigvar, n, clilen, servlen;
+	int sockpifd, recvsig, n, clilen, servlen;
 	int udpdelay = 100;
-	int *recvsigptr = &recvsigvar;
 	float phasevals[3], randomnoise[3];
 	float timechecked = 0;
 	struct sockaddr_in servaddr, cliaddr;
@@ -29,13 +28,13 @@ int main() {
 		exit(EXIT_FAILURE); 
 	} 
 
+	// Set the datagram memory value to 0
 	memset(&servaddr, 0, sizeof(servaddr)); 
 	memset(&cliaddr, 0, sizeof(cliaddr));
 	
-	// Filling server information 
+	// Listening UDP server information 
 	servaddr.sin_family = AF_INET; // IPv4 
 	servaddr.sin_port = htons(PORT); 
-	// servaddr.sin_addr.s_addr = INADDR_ANY; 
 	inet_aton(LOCAL_IP, &servaddr.sin_addr);
 	
 	// Bind the socket with the server address 
@@ -46,35 +45,40 @@ int main() {
 		exit(EXIT_FAILURE); 
 	} 
 
+	// Get size of datagrams
 	clilen = sizeof(cliaddr); //len is value/resuslt 
 
-	n = recvfrom(sockpifd, (int *)recvsigptr, sizeof(recvsigptr), 
+	// Listen for signal from UDP gate
+	n = recvfrom(sockpifd, (int *)&recvsig, sizeof(&recvsig), 
 				0, ( struct sockaddr *) &cliaddr, 
 				&clilen); 
 
+	// Print generator server information
 	printf("Length = %d\n", n);
-	printf("Received signal = %d\n", recvsigvar);
+	printf("Received signal = %d\n", recvsig);
 	printf("Server address = %zu\n", servaddr.sin_addr.s_addr);
-	printf("Server family = %zu\n", inet_lnaof(servaddr.sin_addr));
 	printf("Server port = %u\n", servaddr.sin_port);
 
 	while(1) {
 		// Generate the phase values
 		phasegenerator(phasevals, &timechecked, randomnoise);
 
+		// Send phase data to UDP gate
 		sendto(sockpifd, (const float *)phasevals, sizeof(phasevals), 
 			0, (const struct sockaddr *) &cliaddr, 
 				clilen); 
 		
-		printf("Phase values : %f\t%f\t%f\n", phasevals[0], phasevals[1], phasevals[2]);
+		// Debug print
+		// printf("Phase values : %f\t%f\t%f\n", phasevals[0], phasevals[1], phasevals[2]);
 		
-		// Delay for testing
+		// Pause the receiving/sending for 0.1 seconds
 		usleep(udpdelay*1000);
 	}
 	
 	return 0; 
 } 
 
+// Generate the simulated 3 phase power data
 int phasegenerator(float *phasevals, float *timechecked, float *randomnoise) {
 	float amplitude = 120;
 	float phaseoffset = (2.0*M_PI)/3.0;
