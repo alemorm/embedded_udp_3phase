@@ -6,6 +6,7 @@ LOCAL_IP = ""
 REMOTE_IP = "192.168.42.11"
 PORT = 21050
 MESSAGE = np.int32(5).tobytes()
+BUFFER_SIZE = 64
 
 # Print remote server information
 print("UDP target IP: %s" % REMOTE_IP)
@@ -41,7 +42,7 @@ y_vec[2,:] = 120*(np.sin(x_vec + 4*np.pi/3) + random_noise[2,:])
 lines = []
 
 while True:
-    data, addr = localsock.recvfrom(1024) # buffer size is 1024 bytes
+    data, addr = localsock.recvfrom(BUFFER_SIZE) # buffer size is 1024 bytes
     phase_data = np.frombuffer(data, dtype=np.float32)
     
     # Debug prints
