@@ -43,8 +43,8 @@ int main() {
 	inet_aton(LOCAL_IP, &servaddr.sin_addr);
 
 	// Client setup
-    cliaddr.sin_family = AF_INET;
-    cliaddr.sin_port = htons(SEND_PORT);
+	cliaddr.sin_family = AF_INET;
+	cliaddr.sin_port = htons(SEND_PORT);
 	inet_aton(REMOTE_IP, &cliaddr.sin_addr);
 
 	clilen = sizeof(cliaddr); //len is value/resuslt 
