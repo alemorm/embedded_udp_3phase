@@ -11,14 +11,15 @@
 
 #define LOCAL_IP "127.0.0.1"
 #define REMOTE_IP "192.168.42.8"
-#define GEN_PORT 20050
-#define PY_PORT 21050
+#define GEN_PORT 5367
+#define PY_PORT 6367
 #define MAXLINE 1024 
 
 int main() { 
 	int sockpifd, sockpcfd, startsig, n, clilen, servlen, genlen, pylen;
 	float phasevals[3];
-	int udpdelay = 100;
+	char clientaddress[40], serveraddress[40];
+	int udpdelay = 1000.0/60.0;  //60 Hz frequency
 	int sendsig = 8;
 	struct sockaddr_in servaddr, cliaddr, genaddr, pyaddr;
 	
@@ -68,21 +69,25 @@ int main() {
 				0, ( struct sockaddr *) &cliaddr, 
 				&clilen); 
 
+	inet_ntop(AF_INET, &cliaddr.sin_addr, clientaddress, sizeof(clientaddress));
+
 	// Print python client information
 	printf("Length = %d\n", n);
 	printf("Receive signal = %d\n", startsig);
-	printf("Client address = %zu\n", cliaddr.sin_addr.s_addr);
-	printf("Client port = %u\n", cliaddr.sin_port);
+	printf("Python address = %s\n", clientaddress);
+	printf("Python port = %d\n", htons(cliaddr.sin_port));
 
 	// Send start signal to generator server
 	sendto(sockpifd, (const int *)&sendsig, sizeof(&sendsig), 
 			0, (const struct sockaddr *) &genaddr, 
 				genlen); 
 
+	inet_ntop(AF_INET, &genaddr.sin_addr, serveraddress, sizeof(serveraddress));
+
 	// Print generator server information
 	printf("Send signal = %d\n", sendsig);
-	printf("Client address = %zu\n", genaddr.sin_addr.s_addr);
-	printf("Client port = %u\n", genaddr.sin_port);
+	printf("Generator address = %s\n", serveraddress);
+	printf("Generator port = %d\n", htons(genaddr.sin_port));
 
 	while(1) {
 		// Receive simulated 3 phase power data from generator server

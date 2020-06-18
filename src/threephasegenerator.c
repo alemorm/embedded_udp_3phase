@@ -10,14 +10,15 @@
 #include <netinet/in.h> 
 
 #define LOCAL_IP "127.0.0.1"
-#define PORT 20050
+#define PORT 5367
 #define MAXLINE 1024 
 
 int phasegenerator(float *phasevals, float *timechecked, float *randomnoise);
 
 int main() { 
 	int sockpifd, recvsig, n, clilen, servlen;
-	int udpdelay = 100;
+	int udpdelay = 1000.0/60.0;  //60 Hz frequency
+	char clientaddress[40];
 	float phasevals[3], randomnoise[3];
 	float timechecked = 0;
 	struct sockaddr_in servaddr, cliaddr;
@@ -53,11 +54,13 @@ int main() {
 				0, ( struct sockaddr *) &cliaddr, 
 				&clilen); 
 
+	inet_ntop(AF_INET, &cliaddr.sin_addr, clientaddress, sizeof(clientaddress));
+
 	// Print generator server information
 	printf("Length = %d\n", n);
 	printf("Received signal = %d\n", recvsig);
-	printf("Server address = %zu\n", servaddr.sin_addr.s_addr);
-	printf("Server port = %u\n", servaddr.sin_port);
+	printf("Server address = %s\n", clientaddress);
+	printf("Server port = %d\n", htons(servaddr.sin_port));
 
 	while(1) {
 		// Generate the phase values

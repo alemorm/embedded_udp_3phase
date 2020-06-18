@@ -4,7 +4,7 @@ from plot_func import live_plotter
 
 LOCAL_IP = ""
 REMOTE_IP = "192.168.42.11"
-PORT = 21050
+PORT = 6367
 MESSAGE = np.int32(5).tobytes()
 BUFFER_SIZE = 64
 
