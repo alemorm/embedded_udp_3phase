@@ -13,13 +13,13 @@
 #define PORT 5367
 #define MAXLINE 1024 
 
-int phasegenerator(float *phasevals, float *timechecked, float *randomnoise);
+int phasegenerator(float *phasevals, float *timechecked, float *recvsig);
 
 int main() { 
-	int sockpifd, recvsig, n, clilen, servlen;
+	int sockpifd, n, clilen, servlen;
 	int udpdelay = 1000.0/60.0;  //60 Hz frequency
 	char clientaddress[40];
-	float phasevals[3], randomnoise[3];
+	float phasevals[3], recvsig[2];
 	float timechecked = 0;
 	struct sockaddr_in servaddr, cliaddr;
 
@@ -50,7 +50,7 @@ int main() {
 	clilen = sizeof(cliaddr); //len is value/resuslt 
 
 	// Listen for signal from UDP gate
-	n = recvfrom(sockpifd, (int *)&recvsig, sizeof(&recvsig), 
+	n = recvfrom(sockpifd, (float *)recvsig, sizeof(recvsig), 
 				0, ( struct sockaddr *) &cliaddr, 
 				&clilen); 
 
@@ -58,13 +58,14 @@ int main() {
 
 	// Print generator server information
 	printf("Length = %d\n", n);
-	printf("Received signal = %d\n", recvsig);
+	printf("Received noise = %f\n", recvsig[0]);
+	printf("Received time step = %f\n", recvsig[1]);
 	printf("Server address = %s\n", clientaddress);
 	printf("Server port = %d\n", htons(servaddr.sin_port));
 
 	while(1) {
 		// Generate the phase values
-		phasegenerator(phasevals, &timechecked, randomnoise);
+		phasegenerator(phasevals, &timechecked, recvsig);
 
 		// Send phase data to UDP gate
 		sendto(sockpifd, (const float *)phasevals, sizeof(phasevals), 
@@ -82,16 +83,17 @@ int main() {
 } 
 
 // Generate the simulated 3 phase power data
-int phasegenerator(float *phasevals, float *timechecked, float *randomnoise) {
-	float amplitude = 120;
-	float phaseoffset = (2.0*M_PI)/3.0;
-	randomnoise[0] = (random() % 100)/1000.0;
-	randomnoise[1] = (random() % 100)/1000.0;
-	randomnoise[2] = (random() % 100)/1000.0;
+int phasegenerator(float *phasevals, float *timechecked, float *recvsig) {
+	int amplitude = 120;
+	float phaseoffset = 2.0*M_PI/3.0;
+	float randomnoise[3];
+	randomnoise[0] = recvsig[0]*(random() % amplitude)/(amplitude*10);
+	randomnoise[1] = recvsig[0]*(random() % amplitude)/(amplitude*10);
+	randomnoise[2] = recvsig[0]*(random() % amplitude)/(amplitude*10);
 
 	phasevals[0] = amplitude*(sin(*timechecked) + randomnoise[0]);
-	phasevals[1] = amplitude*(sin(*timechecked + phaseoffset) + + randomnoise[1]);
-	phasevals[2] = amplitude*(sin(*timechecked + 2*phaseoffset) + + randomnoise[2]);
-	*timechecked += 0.1;
+	phasevals[1] = amplitude*(sin(*timechecked + phaseoffset) + randomnoise[1]);
+	phasevals[2] = amplitude*(sin(*timechecked + 2*phaseoffset) + randomnoise[2]);
+	*timechecked += recvsig[1];
 	return 0;
 }

@@ -16,11 +16,10 @@
 #define MAXLINE 1024 
 
 int main() { 
-	int sockpifd, sockpcfd, startsig, n, clilen, servlen, genlen, pylen;
-	float phasevals[3];
+	int sockpifd, sockpcfd, n, clilen, servlen, genlen, pylen;
+	float phasevals[3], pythonargs[2];
 	char clientaddress[40], serveraddress[40];
 	int udpdelay = 1000.0/60.0;  //60 Hz frequency
-	int sendsig = 8;
 	struct sockaddr_in servaddr, cliaddr, genaddr, pyaddr;
 	
 	// Creating socket file descriptors 
@@ -65,7 +64,7 @@ int main() {
 	pylen = sizeof(pyaddr); //len is value/result 
 
 	// Listen for start signal from python client
-	n = recvfrom(sockpcfd, (int *)&startsig, sizeof(&startsig), 
+	n = recvfrom(sockpcfd, (float *)pythonargs, sizeof(pythonargs), 
 				0, ( struct sockaddr *) &cliaddr, 
 				&clilen); 
 
@@ -73,19 +72,21 @@ int main() {
 
 	// Print python client information
 	printf("Length = %d\n", n);
-	printf("Receive signal = %d\n", startsig);
+	printf("Receive noise = %f\n", pythonargs[0]);
+	printf("Receive timestep = %f\n", pythonargs[1]);
 	printf("Python address = %s\n", clientaddress);
 	printf("Python port = %d\n", htons(cliaddr.sin_port));
 
 	// Send start signal to generator server
-	sendto(sockpifd, (const int *)&sendsig, sizeof(&sendsig), 
+	sendto(sockpifd, (const float *)pythonargs, sizeof(pythonargs), 
 			0, (const struct sockaddr *) &genaddr, 
 				genlen); 
 
 	inet_ntop(AF_INET, &genaddr.sin_addr, serveraddress, sizeof(serveraddress));
 
 	// Print generator server information
-	printf("Send signal = %d\n", sendsig);
+	printf("Send noise = %f\n", pythonargs[0]);
+	printf("Send timestep = %f\n", pythonargs[1]);
 	printf("Generator address = %s\n", serveraddress);
 	printf("Generator port = %d\n", htons(genaddr.sin_port));
 

@@ -8,7 +8,7 @@
           "exec_dir": "~/projects/${workspaceFolderBasename}/bin/",
           "exec_file": "~/projects/${workspaceFolderBasename}/bin/${fileBasenameNoExtension}",
           "pi_source": "~/projects/${workspaceFolderBasename}/${relativeFile}",
-          "git_ignore": "${workspaceFolder}/.gitignore",
+          "excludefile": "${workspaceFolder}/excludefile",
           "compiler": "gcc"
       }
     },
@@ -16,7 +16,7 @@
       {
         "label": "Sync local to remote",
         "type": "shell",
-        "command": "rsync --exclude-from=$git_ignore -avr ${workspaceFolder}/ pi:$pi_dir --delete",
+        "command": "rsync --exclude-from=$excludefile -avr ${workspaceFolder}/ pi:$pi_dir --delete",
         "presentation": {
           "reveal": "silent",
           "revealProblems": "onProblem"
