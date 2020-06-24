@@ -8,11 +8,11 @@ project(threephasepower C)
 # Change the output dir for the executables to bin/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# add_executable creates an executable with
-# the given name. In our case it is "threephasepower"
-# source files are given as parameters. In our
-# case we only have one source file threephasegenerator.c
-add_executable(threephasepower src/threephasegenerator.c)
+# add_executable creates executables with
+# the given name. In our case it is "threephasegenerator"
+# and "threephaseforwarder" source files are given as parameters. 
+add_executable(threephasegenerator src/threephasegenerator.c)
+add_executable(threephaseforwarder src/threephaseforwarder.c)
 
 # Link the math.h library
-target_link_libraries(threephasepower PRIVATE m)
+target_link_libraries(threephasegenerator PRIVATE m)

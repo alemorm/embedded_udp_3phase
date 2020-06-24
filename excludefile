@@ -1,0 +1,9 @@
+.ipynb_checkpoints
+__pycache__
+settings.json
+img/
+.git/
+.vscode/
+scripts/
+ipynb/
+getcmake.sh

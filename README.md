@@ -20,11 +20,17 @@ The executables (under the [bin directory](bin/)) for [`threephasegenerator`] an
 
 ### Host Development
 
-The development of the host code happens on the host device. The host device is a Windows 10 desktop running [Windows Subsystem for Linux (v1)][wsl] with [Ubuntu 18.04.4 LTS][ubuntu] and [VSCode (v1.46.1)][vscode] with the [remote ssh developmnent][sshext], [C/C++][c++], and the [python extensions][pythonext].
+The development of the host code happens on the host device. The host device is a Windows 10 desktop running [Windows Subsystem for Linux (v1)][wsl] with [Ubuntu 18.04.4 LTS][ubuntu] and [VSCode (v1.46.1)][vscode] with the [remote SSH developmnent][sshext], [C/C++][c++], and the [Python extensions][pythonext]. The Python extension uses a [`conda (v4.8.3)`][conda] [environment] (provided).
 
 ### Embedded Development
 
-The development of the embedded source code happens on the host device and the compilation happens on the Raspberry Pi.  Once the source code is updated on the host device, a [VSCode compound task][vstasks] uses [`rsync`] for synchronization and [`ssh`] commands for remote compilation using [`gcc`] (v4.9.2) on the Raspberry Pi. This remote compilation strategy was chosen over a emulator such as [qemu]
+The development of the embedded source code happens on the host device and the compilation happens on the Raspberry Pi.  Once the source code is updated on the host device, a [VSCode compound task][vstasks] uses [`rsync`] for synchronization and [`ssh`] commands for remote compilation using [`gcc`] (v4.9.2) on the Raspberry Pi. This remote compilation strategy was chosen over a emulator such as [qemu] due to the performance decrease, which could severely impact the build time for more complex projects.
+
+### Getting Started
+
+To replicate this project, first clone or download the repository using the following command:
+
+- `git clone https://github.com/alemorm/embedded_udp_3phase.git ~/`
 
 <!-- Links -->
 [`threephasegenerator`]: src/threephasegenerator.c
@@ -44,3 +50,5 @@ The development of the embedded source code happens on the host device and the c
 [sshext]: https://code.visualstudio.com/docs/remote/ssh
 [c++]: https://code.visualstudio.com/docs/languages/cpp
 [pythonext]: https://code.visualstudio.com/docs/python/python-tutorial
+[conda]: https://docs.conda.io/en/latest/miniconda.html
+[environment]: environment.yml

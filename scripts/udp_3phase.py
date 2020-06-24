@@ -61,7 +61,7 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     plotter = LivePlotter(ax, localsock, buffersize, debug, size=200, noise=noise, dt=timestep)
     
     if save_animation:
-        frames = 126
+        frames = 128
         phaseanimation = animation.FuncAnimation(fig, func=plotter.updatefig, frames=frames, interval=frequency, blit=True, repeat=False)
         plt.show()
         
