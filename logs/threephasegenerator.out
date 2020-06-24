@@ -1,16 +1,10 @@
 Length = 16
-Receive noise =    0.100
-Receive time step =    0.100
-Receive frequency =   20.000
-Receive debug =    1.000
-Python address = 192.168.42.8
-Python port = 55287
-Send noise =    0.100
-Send time step =    0.100
-Send frequency =   20.000
-Send debug =    1.000
-Generator address = 127.0.0.1
-Generator port = 5367
+Received noise =    0.100
+Received time step =    0.100
+Received frequency =   20.000
+Received debug =    1.000
+Server address = 127.0.0.1
+Server port = 5367
 Phase values :   10.300 |  108.523 |  -98.223 | Time (s):     0.10
 Phase values :   23.480 |  108.714 | -103.894 | Time (s):     0.20
 Phase values :   34.440 |   91.131 | -112.872 | Time (s):     0.30
@@ -558,63 +552,4 @@ Phase values :  -87.250 |   -7.470 |  119.520 | Time (s):    54.40
 Phase values :  -96.198 |    0.060 |  112.139 | Time (s):    54.50
 Phase values : -104.543 |   16.954 |  105.789 | Time (s):    54.60
 Phase values : -100.123 |   26.594 |   95.128 | Time (s):    54.70
-Phase values : -112.388 |   30.461 |   93.528 | Time (s):    54.80
-Phase values : -116.201 |   44.636 |   86.865 | Time (s):    54.90
-Phase values : -110.334 |   53.005 |   73.329 | Time (s):    55.00
-Phase values : -113.771 |   62.657 |   61.214 | Time (s):    55.10
-Phase values : -110.810 |   73.988 |   58.022 | Time (s):    55.20
-Phase values : -109.959 |   88.697 |   36.762 | Time (s):    55.30
-Phase values : -103.338 |   90.593 |   24.145 | Time (s):    55.40
-Phase values : -104.180 |  101.592 |   18.088 | Time (s):    55.50
-Phase values :  -94.328 |  109.318 |    5.609 | Time (s):    55.60
-Phase values :  -95.136 |  114.208 |   -9.171 | Time (s):    55.70
-Phase values :  -87.370 |  120.905 |  -20.535 | Time (s):    55.80
-Phase values :  -71.704 |  126.066 |  -28.962 | Time (s):    55.90
-Phase values :  -65.822 |  124.758 |  -38.937 | Time (s):    56.00
-Phase values :  -51.315 |  131.861 |  -49.246 | Time (s):    56.10
-Phase values :  -50.083 |  127.066 |  -58.483 | Time (s):    56.20
-Phase values :  -39.930 |  119.975 |  -73.545 | Time (s):    56.30
-Phase values :  -28.167 |  115.803 |  -81.536 | Time (s):    56.40
-Phase values :  -17.109 |  117.377 |  -85.868 | Time (s):    56.50
-Phase values :    0.827 |  110.135 |  -99.362 | Time (s):    56.60
-Phase values :   17.422 |  105.727 | -101.149 | Time (s):    56.70
-Phase values :   19.256 |  100.612 | -110.868 | Time (s):    56.80
-Phase values :   34.109 |   90.761 | -106.370 | Time (s):    56.90
-Phase values :   51.965 |   87.853 | -115.318 | Time (s):    57.00
-Phase values :   57.808 |   77.577 | -117.684 | Time (s):    57.10
-Phase values :   63.628 |   57.427 | -110.455 | Time (s):    57.20
-Phase values :   82.621 |   46.906 | -108.527 | Time (s):    57.30
-Phase values :   83.487 |   36.323 | -106.910 | Time (s):    57.40
-Phase values :   95.435 |   25.390 | -109.925 | Time (s):    57.50
-Phase values :   98.081 |   20.223 | -102.904 | Time (s):    57.60
-Phase values :  106.152 |    7.641 |  -93.093 | Time (s):    57.70
-Phase values :  117.282 |   -3.937 |  -92.445 | Time (s):    57.80
-Phase values :  121.717 |  -23.490 |  -80.727 | Time (s):    57.90
-Phase values :  122.114 |  -25.200 |  -73.413 | Time (s):    58.00
-Phase values :  127.140 |  -42.852 |  -65.888 | Time (s):    58.10
-Phase values :  129.977 |  -53.633 |  -56.444 | Time (s):    58.20
-Phase values :  126.314 |  -65.835 |  -45.279 | Time (s):    58.30
-Phase values :  123.257 |  -74.556 |  -32.901 | Time (s):    58.40
-Phase values :  118.619 |  -78.101 |  -20.118 | Time (s):    58.50
-Phase values :  117.630 |  -85.483 |  -11.647 | Time (s):    58.60
-Phase values :  118.228 |  -91.223 |   -4.405 | Time (s):    58.70
-Phase values :  109.962 | -102.252 |   16.090 | Time (s):    58.80
-Phase values :   95.593 | -111.310 |   28.117 | Time (s):    58.90
-Phase values :   96.592 | -110.048 |   38.556 | Time (s):    59.00
-Phase values :   82.739 | -117.431 |   53.492 | Time (s):    59.10
-Phase values :   67.222 | -109.531 |   56.909 | Time (s):    59.20
-Phase values :   61.738 | -115.035 |   68.897 | Time (s):    59.30
-Phase values :   56.388 | -109.540 |   81.852 | Time (s):    59.40
-Phase values :   39.783 | -104.857 |   86.475 | Time (s):    59.50
-Phase values :   24.933 | -108.108 |   90.774 | Time (s):    59.60
-Phase values :   18.657 | -103.825 |  107.368 | Time (s):    59.70
-Phase values :    6.672 | -101.454 |  106.682 | Time (s):    59.80
-Phase values :   -8.702 |  -93.251 |  111.953 | Time (s):    59.90
-Phase values :  -23.945 |  -87.181 |  121.225 | Time (s):    60.00
-Phase values :  -28.238 |  -72.420 |  125.258 | Time (s):    60.10
-Phase values :  -39.766 |  -63.452 |  125.418 | Time (s):    60.20
-Phase values :  -47.318 |  -60.270 |  130.388 | Time (s):    60.30
-Phase values :  -63.984 |  -38.974 |  127.359 | Time (s):    60.40
-Phase values :  -77.665 |  -34.370 |  125.635 | Time (s):    60.50
-Phase values :  -83.064 |  -20.669 |  116.133 | Time (s):    60.60
-Phase values :  -90.695 |  -13.885 |  11
+Phase values : -112.388 |   30.461 |   93.528
