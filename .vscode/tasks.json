@@ -4,19 +4,19 @@
     "version": "2.0.0",
     "options": {
       "env": {
-          "pi_dir": "~/projects/${workspaceFolderBasename}",
-          "exec_dir": "~/projects/${workspaceFolderBasename}/bin/",
-          "exec_file": "~/projects/${workspaceFolderBasename}/bin/${fileBasenameNoExtension}",
-          "pi_source": "~/projects/${workspaceFolderBasename}/${relativeFile}",
+          "pidir": "~/${workspaceFolderBasename}",
+          "pythonfile": "${workspaceFolder}/scripts/udp_3phase.py",
           "excludefile": "${workspaceFolder}/excludefile",
-          "compiler": "gcc"
+          "logsdir": "${workspaceFolder}/logs",
+          "buildproject": "cd ~/${workspaceFolderBasename}/build/ && cmake .. && make",
+          "runproject": "cd ~/${workspaceFolderBasename}/ && rm logs/*out; pkill -f threephase; find bin/ -type f -exec bash -c '{} &> logs/c$$.out &' \\;"
       }
     },
     "tasks": [
       {
         "label": "Sync local to remote",
         "type": "shell",
-        "command": "rsync --exclude-from=$excludefile -avr ${workspaceFolder}/ pi:$pi_dir --delete",
+        "command": "rsync --exclude-from=$excludefile -avr ${workspaceFolder}/ pi:$pidir",
         "presentation": {
           "reveal": "silent",
           "revealProblems": "onProblem"
@@ -25,7 +25,7 @@
       {
         "label": "Compile and build Raspberry Pi C binary",
         "type": "shell",
-        "command": "ssh pi <<< echo $compiler -lm -o $exec_file $pi_source",
+        "command": "ssh -T pi <<< $buildproject",
         "presentation": {
           "reveal": "silent",
           "revealProblems": "onProblem"
@@ -34,12 +34,15 @@
       {
         "label": "Sync remote to local",
         "type": "shell",
-        "command": "rsync -avr pi:$pi_dir/ ${workspaceFolder}",
+        "command": "rsync -avr pi:$pidir/ ${workspaceFolder}",
         "dependsOrder": "sequence",
-        "dependsOn": ["Sync local to remote", "Compile and build Raspberry Pi C binary"],
+        "dependsOn": [
+          "Sync local to remote",
+          "Compile and build Raspberry Pi C binary"
+        ],
         "group": {
-            "kind": "build",
-            "isDefault": true
+          "kind": "build",
+          "isDefault": true
         },
         "presentation": {
           "reveal": "silent",
@@ -49,14 +52,27 @@
       {
         "label": "Run the binaries remotely",
         "type": "shell",
-        "command": "ssh pi <<< echo $exec_file",
-        "group": {
-            "kind": "test",
-            "isDefault": true
-        },
+        "command": "ssh -T pi <<< $runproject",
         "presentation": {
           "reveal": "always"
         }
+      },
+      {
+        "label": "Run the python script",
+        "type": "shell",
+        "command": "${config:python.pythonPath} $pythonfile -d &> $logsdir/py$$.out",
+        "dependsOrder": "sequence",
+        "dependsOn": [
+          "Run the binaries remotely"
+        ],
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always"
+        },
+        "problemMatcher": []
       }
     ]
   }
