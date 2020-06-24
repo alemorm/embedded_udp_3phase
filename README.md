@@ -12,7 +12,7 @@ The executables (under the [bin directory](bin/)) for [`threephasegenerator`] an
 
 ## Embedded Development
 
-The development of the embedded source code happens on the host machine and the compilation happens on the Raspberry Pi. The host machine running Windows Subsystem for Linux and VSCode uses a [VSCode compound task](vstasks) with [`rsync`] for synchronization and [`ssh`] commands for compilation using [`gcc`] (v4.9.2) on the Respberry Pi.
+The development of the embedded source code happens on the host machine and the compilation happens on the Raspberry Pi. The host machine running Windows Subsystem for Linux and VSCode uses a [VSCode compound task][vstasks] with [`rsync`] for synchronization and [`ssh`] commands for compilation using [`gcc`] (v4.9.2) on the Raspberry Pi.
 
 [`ssh`]: https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys
 [`rsync`]: https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps
