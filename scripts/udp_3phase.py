@@ -42,7 +42,21 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     # Bind to local socket to listen in on incoming UDP communication
     localsock.bind((localip, port))        
 
-    # Initialize arrays with random noisy 3 phase data
+    # Initialize figure and axes
+    plt.rcParams.update({
+    "lines.color": "white",
+    "patch.edgecolor": "white",
+    "text.color": "white",
+    "axes.facecolor": "black",
+    "axes.edgecolor": "lightgray",
+    "axes.labelcolor": "white",
+    "xtick.color": "white",
+    "ytick.color": "white",
+    "grid.color": "lightgray",
+    "figure.facecolor": "black",
+    "figure.edgecolor": "black",
+    "savefig.facecolor": "black",
+    "savefig.edgecolor": "black"})
     fig, ax = plt.subplots(figsize=(14,7))
     plotter = LivePlotter(ax, localsock, buffersize, debug, size=200, noise=noise, dt=timestep)
     
