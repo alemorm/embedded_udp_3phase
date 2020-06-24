@@ -1,14 +1,20 @@
+import struct
 import numpy as np
 import matplotlib.pyplot as plt
 from string import ascii_uppercase
 
 class LivePlotter:
-    def __init__(self, ax, socketobj, buffersize, debug, size=1000, noise=0.1):
+    def __init__(self, ax, socketobj, buffersize, debug, size=1000, noise=0.1, dt=0.1):
         '''Initialize the plotting class'''
         self.ax = ax
+        self.dt = dt
+        self.time = 0
         self.debug = debug
         self.socket = socketobj
         self.buffersize = buffersize
+        self.recvdata = np.zeros(4)
+        self.newphasedata = np.zeros(3)
+        self.time = np.zeros(1)
         self.tdata = np.linspace(-6*np.pi, -0.1, size)
         self.phasedata = np.zeros((3, size))
         self.noise = np.random.uniform(low=-noise, high=noise, size=self.phasedata.shape)
@@ -37,10 +43,16 @@ class LivePlotter:
     def UDPupdate(self, debug=False):
         '''Return the latest phase value from the UDP port'''
         data, addr = self.socket.recvfrom(self.buffersize)
-        self.newphasedata = np.frombuffer(data, dtype=np.float32)
+        self.recvdata[:] = struct.unpack('ffff', data)
+        self.newphasedata[:] = self.recvdata[:-1]
+        self.time = self.recvdata[-1]
 
         if debug:
             # Debug prints
-            print(f'received message: {self.newphasedata}')
-            print(f'received message: {addr}')
+            if self.time <= self.dt*2:
+                print(f'IP Address: {addr[0]} | Port: {addr[1]}')
 
+            print(f'Phase data: {self.newphasedata[0]:8.3f} | {self.newphasedata[1]:8.3f} | {self.newphasedata[2]:8.3f} | Time: {self.time:7.2f}')
+            
+
+        return None

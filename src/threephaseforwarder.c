@@ -17,9 +17,8 @@
 
 int main() { 
 	int sockpifd, sockpcfd, n, clilen, servlen, genlen, pylen;
-	float phasevals[3], pythonargs[2];
+	float phasevals[4], pythonargs[4];
 	char clientaddress[40], serveraddress[40];
-	int udpdelay = 1000.0/60.0;  //60 Hz frequency
 	struct sockaddr_in servaddr, cliaddr, genaddr, pyaddr;
 	
 	// Creating socket file descriptors 
@@ -58,10 +57,10 @@ int main() {
 	} 
 
 	// Get size of datagrams
-	clilen = sizeof(cliaddr); //len is value/result 
-	servlen = sizeof(servaddr); //len is value/result 
-	genlen = sizeof(genaddr); //len is value/result 
-	pylen = sizeof(pyaddr); //len is value/result 
+	clilen = sizeof(cliaddr);
+	servlen = sizeof(servaddr);
+	genlen = sizeof(genaddr);
+	pylen = sizeof(pyaddr);
 
 	// Listen for start signal from python client
 	n = recvfrom(sockpcfd, (float *)pythonargs, sizeof(pythonargs), 
@@ -70,12 +69,16 @@ int main() {
 
 	inet_ntop(AF_INET, &cliaddr.sin_addr, clientaddress, sizeof(clientaddress));
 
-	// Print python client information
-	printf("Length = %d\n", n);
-	printf("Receive noise = %f\n", pythonargs[0]);
-	printf("Receive timestep = %f\n", pythonargs[1]);
-	printf("Python address = %s\n", clientaddress);
-	printf("Python port = %d\n", htons(cliaddr.sin_port));
+	if (pythonargs[3] > 0) {
+		// Print debug python client information
+		printf("Length = %d\n", n);
+		printf("Receive noise = %8.3f\n", pythonargs[0]);
+		printf("Receive time step = %8.3f\n", pythonargs[1]);
+		printf("Receive frequency = %8.3f\n", pythonargs[2]);
+		printf("Receive debug = %8.3f\n", pythonargs[3]);
+		printf("Python address = %s\n", clientaddress);
+		printf("Python port = %d\n", htons(cliaddr.sin_port));
+	}
 
 	// Send start signal to generator server
 	sendto(sockpifd, (const float *)pythonargs, sizeof(pythonargs), 
@@ -84,11 +87,15 @@ int main() {
 
 	inet_ntop(AF_INET, &genaddr.sin_addr, serveraddress, sizeof(serveraddress));
 
-	// Print generator server information
-	printf("Send noise = %f\n", pythonargs[0]);
-	printf("Send timestep = %f\n", pythonargs[1]);
-	printf("Generator address = %s\n", serveraddress);
-	printf("Generator port = %d\n", htons(genaddr.sin_port));
+	if (pythonargs[3] > 0) {
+		// Print debug generator server information
+		printf("Send noise = %8.3f\n", pythonargs[0]);
+		printf("Send time step = %8.3f\n", pythonargs[1]);
+		printf("Send frequency = %8.3f\n", pythonargs[2]);
+		printf("Send debug = %8.3f\n", pythonargs[3]);
+		printf("Generator address = %s\n", serveraddress);
+		printf("Generator port = %d\n", htons(genaddr.sin_port));
+	}
 
 	while(1) {
 		// Receive simulated 3 phase power data from generator server
@@ -101,11 +108,13 @@ int main() {
 			0, (const struct sockaddr *) &pyaddr, 
 				pylen); 
 
-		// Debug print
-		// printf("Phase values : %f\t%f\t%f\n", phasevals[0], phasevals[1], phasevals[2]);
+		if (pythonargs[3] > 0) {
+			// Debug print
+			printf("Phase values : %8.3f | %8.3f | %8.3f | Time (s): %8.2f\n", phasevals[0], phasevals[1], phasevals[2], phasevals[3]);
+		}
 		
-		// Pause the receiving/sending for 0.1 seconds
-		usleep(udpdelay*1000);
+		// Pause the receiving/sending for specified seconds
+		usleep((pythonargs[2] - 5)*1000);
 	}
 	
 	return 0; 
