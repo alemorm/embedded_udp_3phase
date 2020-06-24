@@ -4,13 +4,19 @@
 
 ![3 phase power](img/noiselessphaseanimation.gif)
 
+---
+
 ## Description
 
 Testing User Datagram Protocol (UDP) communications on a Raspberry Pi 3 Model B. The Raspberry Pi sends simulated 3-phase power data to another device in a Local Area Network through an UDP port and the data is visualized real-time using Python.
 
+---
+
 ## Overview
 
-The executables (under the [bin directory](bin/)) for [`threephasegenerator`] and [`threephaseforwarder`] are first run on the Raspberry Pi to start listening on the specified ports (Port:6367). The python script [`udp_3phase`] is then run on the host machine to send an array of options for the simulated 3 phase power data such as the added noise, time step, frequency and debug mode to start the simulation. The [`threephaseforwarder`] script receives the array and acts as a gate to relay the communications to the [`threephasegenerator`] script. The simulated data is then sent back to [`threephaseforwarder`], which relays it back to host machine and displayed real-time.
+The executables (under the [bin directory](bin/)) for [`threephasegenerator`] and [`threephaseforwarder`] are first run on the Raspberry Pi to start listening on the specified UDP ports (6367 and 5367). The python script [`udp_3phase`] is then run on the host machine to send an array of options for the simulated 3 phase power data, such as the added noise, time step, frequency and debug mode, to start the simulation. The [`threephaseforwarder`] script receives the array and acts as a gate to relay the communications to the [`threephasegenerator`] script. The simulated data is then sent back to [`threephaseforwarder`], which relays it back to the host machine and displayed real-time.
+
+---
 
 ## Embedded Development
 
