@@ -37,6 +37,10 @@ To replicate this project, first clone the repo on both the host and the embedde
   - If building the source code, make sure to install cmake (>v3.0) on the Raspberry Pi with:
 
     - `sudo apt-get update && sudo apt-get install cmake`
+  
+  - Then build the binaries with the following command:
+  
+    - `cd ~/embedded_udp_3phase/build && cmake .. && make`
 
 - SSH to the Raspberry Pi and run the newly created binaries by:
 
