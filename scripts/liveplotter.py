@@ -24,7 +24,7 @@ class LivePlotter:
         self.lines=[]
         for letter, phasedatum in zip(ascii_uppercase,self.phasedata):
             self.lines.extend(self.ax.plot(self.tdata,phasedatum, marker, alpha=0.8, label=f'Phase {letter}'))
-        self.ax.set_ylabel('Amplitude', size=15)
+        self.ax.set_ylabel('Amplitude (V)', size=15)
         self.ax.set_title('3 Phase Power', pad=40, size=20)
         self.ax.set_ylim([-135, 135])
         self.ax.set_yticks(range(-120,121,40))

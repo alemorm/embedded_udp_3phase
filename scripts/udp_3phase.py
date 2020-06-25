@@ -45,7 +45,7 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     # Bind to local socket to listen in on incoming UDP communication
     localsock.bind((localip, port))        
 
-    # Initialize figure and axes
+    # Set the theme
     plt.rcParams.update({
     "lines.color": "white",
     "patch.edgecolor": "white",
@@ -60,6 +60,8 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     "figure.edgecolor": "black",
     "savefig.facecolor": "black",
     "savefig.edgecolor": "black"})
+    
+    # Initialize figure and axes
     fig, ax = plt.subplots(figsize=(14,7))
     plotter = LivePlotter(ax, localsock, buffersize, debug, size=200, noise=noise, dt=timestep, marker='.')
     

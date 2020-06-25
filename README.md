@@ -24,7 +24,7 @@ The development of the host code happens on the host device. The host device is 
 
 ### Embedded Development
 
-The development of the embedded source code happens on the host device and the compilation happens on the Raspberry Pi.  Once the source code is updated on the host device, a [VSCode compound task][vstasks] uses [`rsync`] for synchronization and [`ssh`] commands for remote compilation using [`gcc`] (v4.9.2) on the Raspberry Pi. This remote compilation strategy was chosen over a emulator such as [qemu] due to the performance decrease, which could severely impact the build time for more complex projects.
+The development of the embedded source code happens on the host device and the compilation happens on the Raspberry Pi.  Once the source code is updated on the host device, a [VSCode compound task][vstasks] uses [`rsync`] for synchronization and [`ssh`] commands for remote compilation using [`cmake`] (v6.3.2) on the Raspberry Pi. This remote compilation strategy was chosen over a emulator such as [qemu] due to the performance decrease, which could severely impact the build time for more complex projects.
 
 ### Getting Started
 
