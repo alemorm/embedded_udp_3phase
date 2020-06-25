@@ -60,7 +60,7 @@ To replicate this project, first clone the repo on both the host and the embedde
 [noisy3phase]: img/phaseanimation.gif
 [vstasks]: .vscode/tasks.json
 [qemu]: https://www.poftut.com/qemu-tutorial/
-[`cmake`]: https://cmake.org/cmake/help/latest/guide/tutorial/index.html
+[cmake]: https://cmake.org/cmake/help/latest/guide/tutorial/index.html
 [`ssh`]: https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys
 [raspberrypi]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [`rsync`]: https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps
