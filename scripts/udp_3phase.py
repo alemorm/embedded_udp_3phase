@@ -21,7 +21,6 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     simoptions = struct.pack('ffff', noise, timestep, frequency, debug)
     buffersize = 16
     pathtosrc = str(pathlib.Path(__file__).parent.parent)
-    print(pathtosrc)
 
     if debug:
         # Print debug server information
