@@ -1,6 +1,5 @@
 import struct
 import numpy as np
-import matplotlib.pyplot as plt
 from string import ascii_uppercase
 
 class LivePlotter:
@@ -14,7 +13,6 @@ class LivePlotter:
         self.buffersize = buffersize
         self.recvdata = np.zeros(4)
         self.newphasedata = np.zeros(3)
-        self.time = np.zeros(1)
         self.tdata = np.linspace(-6*np.pi, -0.1, size)
         self.phasedata = np.zeros((3, size))
         self.noise = np.random.uniform(low=-(noise-noise/5), high=(noise-noise/5), size=self.phasedata.shape)
