@@ -48,10 +48,6 @@ To replicate this project, follow these steps:
   - `conda activate embeddedudp`
   - `python scripts/udp_3phase.py`
 
-### Running the code
-
-- 
-
 ### Alternative Visualizations
 
 ![noisy 3 phase power][noisy3phase]
