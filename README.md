@@ -43,7 +43,10 @@ To replicate this project, follow these steps:
 
 - On the host device, run the python script `udp_3phase` by:
 
-    - `cd ~/embedded_udp_3phase`
+  - `cd ~/embedded_udp_3phase/`
+  - `conda env create -f environment.yml`
+  - `conda activate embeddedudp`
+  - `python scripts/udp_3phase.py`
 
 ### Running the code
 
