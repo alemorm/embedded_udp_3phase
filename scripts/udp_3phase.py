@@ -1,6 +1,7 @@
 import socket
 import click
 import struct
+import pathlib
 import numpy as np
 from liveplotter import LivePlotter
 import matplotlib.pyplot as plt
@@ -19,6 +20,8 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     '''Main code for starting an embedded simulation of 3 phase power and graphing it real-time'''
     simoptions = struct.pack('ffff', noise, timestep, frequency, debug)
     buffersize = 16
+    pathtosrc = str(pathlib.Path(__file__).parent.parent)
+    print(pathtosrc)
 
     if debug:
         # Print debug server information
@@ -58,14 +61,14 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     "savefig.facecolor": "black",
     "savefig.edgecolor": "black"})
     fig, ax = plt.subplots(figsize=(14,7))
-    plotter = LivePlotter(ax, localsock, buffersize, debug, size=200, noise=noise, dt=timestep)
+    plotter = LivePlotter(ax, localsock, buffersize, debug, size=200, noise=noise, dt=timestep, marker='.')
     
     if save_animation:
         frames = 128
         phaseanimation = animation.FuncAnimation(fig, func=plotter.updatefig, frames=frames, interval=frequency, blit=True, repeat=False)
         plt.show()
         
-        filename = '../img/phaseanimation.gif'
+        filename = pathtosrc + '/img/phaseanimation.gif'
         GifWriter = animation.PillowWriter(fps=save_animation) 
         phaseanimation.save(filename, writer=GifWriter)
     else:

@@ -2,7 +2,7 @@
 
 ## UDP Communication Project on Raspberry Pi
 
-![3 phase power](img/noiselessphaseanimation.gif)
+![3 phase power][clean3phase]
 
 ## Description
 
@@ -28,16 +28,38 @@ The development of the embedded source code happens on the host device and the c
 
 ### Getting Started
 
-To replicate this project, first clone or download the repository using the following command:
+To replicate this project, follow these steps:
 
 - `git clone https://github.com/alemorm/embedded_udp_3phase.git ~/`
+
+- *Optional*: Either compile the code using the VSCode build task using `CTRL + SHIFT + B` or use the pre-compiled binaries provided.
+
+- SSH to the Raspberry Pi and run the newly created binaries by:
+
+  - `ssh ~/embedded_udp_3phase/`
+  - `cd ~/embedded_udp_3phase/`
+  - `bin/threephaseforwarder &`
+  - `bin/threephasegenerator &`
+
+- On the host device, run the python script `udp_3phase` by:
+
+    - `cd ~/embedded_udp_3phase`
+
+### Running the code
+
+- 
+
+### Alternative Visualizations
+
+![noisy 3 phase power][noisy3phase]
 
 <!-- Links -->
 [`threephasegenerator`]: src/threephasegenerator.c
 [`threephaseforwarder`]: src/threephaseforwarder.c
 [`udp_3phase`]: scripts/udp_3phase.py
 [`liveplotter`]: scripts/liveplotter.py
-[`getcmake`]: getcmake.sh
+[clean3phase]: img/noiselessphaseanimation.gif
+[noisy3phase]: img/phaseanimation.gif
 [vstasks]: .vscode/tasks.json
 [qemu]: https://www.poftut.com/qemu-tutorial/
 [`gcc`]: https://gcc.gnu.org/onlinedocs/gcc-4.9.2/gcc/

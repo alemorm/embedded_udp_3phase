@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from string import ascii_uppercase
 
 class LivePlotter:
-    def __init__(self, ax, socketobj, buffersize, debug, size=1000, noise=0.1, dt=0.1):
+    def __init__(self, ax, socketobj, buffersize, debug, size=1000, noise=0.1, dt=0.1, marker='-'):
         '''Initialize the plotting class'''
         self.ax = ax
         self.dt = dt
@@ -17,13 +17,13 @@ class LivePlotter:
         self.time = np.zeros(1)
         self.tdata = np.linspace(-6*np.pi, -0.1, size)
         self.phasedata = np.zeros((3, size))
-        self.noise = np.random.uniform(low=-noise, high=noise, size=self.phasedata.shape)
+        self.noise = np.random.uniform(low=-(noise-noise/5), high=(noise-noise/5), size=self.phasedata.shape)
         self.phasedata[0,:] = 120*(np.sin(self.tdata) + self.noise[0,:])
         self.phasedata[1,:] = 120*(np.sin(self.tdata + 2*np.pi/3) + self.noise[1,:])
         self.phasedata[2,:] = 120*(np.sin(self.tdata + 4*np.pi/3) + self.noise[2,:])
         self.lines=[]
         for letter, phasedatum in zip(ascii_uppercase,self.phasedata):
-            self.lines.extend(self.ax.plot(self.tdata,phasedatum, alpha=0.8, label=f'Phase {letter}'))
+            self.lines.extend(self.ax.plot(self.tdata,phasedatum, marker, alpha=0.8, label=f'Phase {letter}'))
         self.ax.set_ylabel('Amplitude', size=15)
         self.ax.set_title('3 Phase Power', pad=40, size=20)
         self.ax.set_ylim([-135, 135])
