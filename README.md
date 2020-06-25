@@ -32,7 +32,11 @@ To replicate this project, first clone the repo on both the host and the embedde
 
 - `git clone https://github.com/alemorm/embedded_udp_3phase.git ~/`
 
-- *Optional*: Either compile the code using the VSCode build task using `CTRL + SHIFT + B` or use the pre-compiled binaries provided (ARM v7).
+- *Optional*: Either compile the code using the VSCode build task using `CTRL + SHIFT + B` or use the pre-compiled binaries provided (BCM2709: quad-core ARMv7).
+  
+  - If building the source code, make sure to install cmake (>v3.0) on the Raspberry Pi with:
+
+    - `sudo apt-get update && sudo apt-get install cmake`
 
 - SSH to the Raspberry Pi and run the newly created binaries by:
 
@@ -56,8 +60,8 @@ To replicate this project, first clone the repo on both the host and the embedde
 [`threephaseforwarder`]: src/threephaseforwarder.c
 [`udp_3phase`]: scripts/udp_3phase.py
 [`liveplotter`]: scripts/liveplotter.py
-[clean3phase]: img/noiselessphaseanimation.gif
-[noisy3phase]: img/phaseanimation.gif
+[clean3phase]: img/Noise0p0Frequency20.gif
+[noisy3phase]: img/Noise0p1Frequency20.gif
 [vstasks]: .vscode/tasks.json
 [qemu]: https://www.poftut.com/qemu-tutorial/
 [cmake]: https://cmake.org/cmake/help/latest/guide/tutorial/index.html

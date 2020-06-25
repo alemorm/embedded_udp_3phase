@@ -18,9 +18,11 @@ import matplotlib.animation as animation
 @click.option('-s', '--save_animation', type=click.INT, help='Save an animation at specified frames-per-second')
 def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animation):
     '''Main code for starting an embedded simulation of 3 phase power and graphing it real-time'''
+    # UDP package containing the command-line arguments
     simoptions = struct.pack('ffff', noise, timestep, frequency, debug)
-    buffersize = 16
-    pathtosrc = str(pathlib.Path(__file__).parent.parent)
+    
+    # Size of the received buffer in bytes
+    buffersize = 16 
 
     if debug:
         # Print debug server information
@@ -62,14 +64,16 @@ def main(localip, remoteip, port, noise, timestep, frequency, debug, save_animat
     
     # Initialize figure and axes
     fig, ax = plt.subplots(figsize=(14,7))
-    plotter = LivePlotter(ax, localsock, buffersize, debug, size=200, noise=noise, dt=timestep, marker='.')
+    plotter = LivePlotter(ax, localsock, buffersize, debug, noise=noise, dt=timestep, marker='.')
     
     if save_animation:
-        frames = 128
+        frames = save_animation*4 + 4
         phaseanimation = animation.FuncAnimation(fig, func=plotter.updatefig, frames=frames, interval=frequency, blit=True, repeat=False)
         plt.show()
         
-        filename = pathtosrc + '/img/phaseanimation.gif'
+        pathtosrc = str(pathlib.Path(__file__).parent.parent)
+        animname = 'Noise' + str(noise).replace('.', 'p') + 'Frequency' + str(frequency) + '.gif'
+        filename = pathtosrc + '/img/' + animname
         GifWriter = animation.PillowWriter(fps=save_animation) 
         phaseanimation.save(filename, writer=GifWriter)
     else:

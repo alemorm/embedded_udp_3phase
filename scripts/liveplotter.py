@@ -3,7 +3,7 @@ import numpy as np
 from string import ascii_uppercase
 
 class LivePlotter:
-    def __init__(self, ax, socketobj, buffersize, debug, size=1000, noise=0.1, dt=0.1, marker='-'):
+    def __init__(self, ax, socketobj, buffersize, debug, noise=0.1, dt=0.1, marker='-'):
         '''Initialize the plotting class'''
         self.ax = ax
         self.dt = dt
@@ -13,8 +13,8 @@ class LivePlotter:
         self.buffersize = buffersize
         self.recvdata = np.zeros(4)
         self.newphasedata = np.zeros(3)
-        self.tdata = np.linspace(-6*np.pi, -0.1, size)
-        self.phasedata = np.zeros((3, size))
+        self.tdata = np.arange(-200*dt, 0, dt)
+        self.phasedata = np.zeros((3, self.tdata.size))
         self.noise = np.random.uniform(low=-(noise-noise/5), high=(noise-noise/5), size=self.phasedata.shape)
         self.phasedata[0,:] = 120*(np.sin(self.tdata) + self.noise[0,:])
         self.phasedata[1,:] = 120*(np.sin(self.tdata + 2*np.pi/3) + self.noise[1,:])
@@ -22,10 +22,12 @@ class LivePlotter:
         self.lines=[]
         for letter, phasedatum in zip(ascii_uppercase,self.phasedata):
             self.lines.extend(self.ax.plot(self.tdata,phasedatum, marker, alpha=0.8, label=f'Phase {letter}'))
+        self.ax.set_xlabel('Time (s)', size=15)
+        self.ax.set_xticks(np.linspace(-200*dt, 0, 10))
         self.ax.set_ylabel('Amplitude (V)', size=15)
-        self.ax.set_title('3 Phase Power', pad=40, size=20)
         self.ax.set_ylim([-135, 135])
         self.ax.set_yticks(range(-120,121,40))
+        self.ax.set_title('3 Phase Power', pad=40, size=20)
         self.ax.legend(bbox_to_anchor=(0,1,1,0.1), loc='lower left', mode='expand', ncol=3, fontsize=15)
 
     def updatefig(self, i):

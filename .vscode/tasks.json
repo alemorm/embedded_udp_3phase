@@ -9,7 +9,7 @@
           "excludefile": "${workspaceFolder}/excludefile",
           "logsdir": "${workspaceFolder}/logs",
           "buildproject": "cd ~/${workspaceFolderBasename}/build/ && cmake .. && make",
-          "runproject": "cd ~/${workspaceFolderBasename}/ && rm logs/*out; pkill -f threephase; find bin/ -type f -exec bash -c '{} &> logs/`basename {}`.out &' \\;"
+          "runproject": "cd ~/${workspaceFolderBasename}/ && rm logs/*out; pkill -f threephase; find bin/ -type f -exec bash -c '{} > logs/`basename {}`.out &' \\;"
       }
     },
     "tasks": [
@@ -54,13 +54,14 @@
         "type": "shell",
         "command": "ssh -T pi <<< $runproject",
         "presentation": {
-          "reveal": "always"
+          "reveal": "silent",
+          "revealProblems": "onProblem"
         }
       },
       {
         "label": "Run the python script",
         "type": "shell",
-        "command": "rm $logsdir/*out; ${config:python.pythonPath} $pythonfile -d &> $logsdir/`basename $pythonfile .py`.out",
+        "command": "rm $logsdir/*out; ${config:python.pythonPath} $pythonfile -d > $logsdir/`basename $pythonfile .py`.out",
         "dependsOrder": "sequence",
         "dependsOn": [
           "Run the binaries remotely"
