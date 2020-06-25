@@ -22,9 +22,9 @@ The executables (under the [bin directory](bin/)) for [`threephasegenerator`] an
 
 The development of the host code happens on the host device. The host device is a Windows 10 desktop running [Windows Subsystem for Linux (v1)][wsl] with [Ubuntu 18.04.4 LTS][ubuntu] and [VSCode (v1.46.1)][vscode] with the [remote SSH developmnent][sshext], [C/C++][c++], and the [Python extensions][pythonext]. The Python extension uses a [`conda (v4.8.3)`][conda] [environment] (provided).
 
-### Embedded Code vDevelopment
+### Embedded Code Development
 
-The development of the embedded source code happens on the host device and the compilation happens on the Raspberry Pi.  Once the source code is updated on the host device, a [VSCode compound task][vstasks] uses [`rsync`] for synchronization and [`ssh`] commands for remote compilation using [`cmake`] (v3.6.2) on the Raspberry Pi. This remote compilation strategy was chosen over a emulator such as [qemu] due to the performance decrease, which could severely impact the build time for more complex projects.
+The development of the embedded source code happens on the host device and the compilation happens on the Raspberry Pi.  Once the source code is updated on the host device, a [VSCode compound task][vstasks] uses [`rsync`] for synchronization and [`ssh`] commands for remote compilation using [`cmake`] (v3.6.2) on the Raspberry Pi. This remote compilation strategy was chosen over a emulator such as [qemu] due to the emulator performance decrease, which could impact the build time for more complex projects.
 
 ### Getting Started
 
@@ -32,7 +32,7 @@ To replicate this project, follow these steps:
 
 - `git clone https://github.com/alemorm/embedded_udp_3phase.git ~/`
 
-- *Optional*: Either compile the code using the VSCode build task using `CTRL + SHIFT + B` or use the pre-compiled binaries provided.
+- *Optional*: Either compile the code using the VSCode build task using `CTRL + SHIFT + B` or use the pre-compiled binaries provided (ARM v7).
 
 - SSH to the Raspberry Pi and run the newly created binaries by:
 
