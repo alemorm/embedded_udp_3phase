@@ -61,7 +61,7 @@ To replicate this project, follow these steps:
 [noisy3phase]: img/phaseanimation.gif
 [vstasks]: .vscode/tasks.json
 [qemu]: https://www.poftut.com/qemu-tutorial/
-[`gcc`]: https://gcc.gnu.org/onlinedocs/gcc-4.9.2/gcc/
+[`cmake`]: https://cmake.org/cmake/help/latest/guide/tutorial/index.html
 [`ssh`]: https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys
 [raspberrypi]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [`rsync`]: https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps
