@@ -50,7 +50,7 @@ class LivePlotter:
             if self.time <= self.dt*2:
                 print(f'IP Address: {addr[0]} | Port: {addr[1]}')
 
-            print(f'Phase data: {self.newphasedata[0]:8.3f} | {self.newphasedata[1]:8.3f} | {self.newphasedata[2]:8.3f} | Time: {self.time:7.2f}')
+            print(f'Phase data: {self.newphasedata[0]:8.3f} | {self.newphasedata[1]:8.3f} | {self.newphasedata[2]:8.3f} | Time (s): {self.time:7.2f}')
             
 
         return None
