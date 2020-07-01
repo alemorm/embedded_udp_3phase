@@ -1,4 +1,4 @@
-# Embedded Linux Test Project
+# Embedded Linux Project 1
 
 ## UDP Communication Project on Raspberry Pi
 
